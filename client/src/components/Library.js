@@ -4,6 +4,8 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { useTable, useFilters, useGlobalFilter, useAsyncDebounce } from 'react-table';
 import { matchSorter } from 'match-sorter';
 
+
+
 function GlobalFilter({
   preGlobalFilteredRows,
   globalFilter,
@@ -100,6 +102,13 @@ const TableComponent = (props) => {
           return (<button className="btn btn-outline-dark" onClick={() => props.addSong(original)}>Add to Queue</button>)
         },
       },
+      {
+        Header: '',
+        accessor: 'options',
+        Cell: ({ row: { original } }) => {
+          return (<button className="btn btn-outline-dark" data-toggle="modal" data-target="#optionModal" onClick={() => props.setOption(original)} >Options</button>)
+        },
+      },
     ],[]
   );
 
@@ -170,6 +179,25 @@ const TableComponent = (props) => {
           })}
         </tbody>
       </table>
+      <div className="modal fade" id="optionModal" tabIndex="-1" role="dialog" aria-labelledby="optionModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="optionModalLabel">Options</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              {props.option.title}
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" className="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
   return table;
@@ -177,9 +205,11 @@ const TableComponent = (props) => {
 
 function Library(props) {
 
+  var [option, setOption] = useState('');
+
   return (
     <div className="table-fixed">
-      <TableComponent {...props}/>
+      <TableComponent setOption={setOption} option={option} {...props}/>
     </div>
   );
 }

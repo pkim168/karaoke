@@ -119,7 +119,10 @@ html {
     position: relative;
 }
 
-
+.modal-backdrop {
+    /* bug fix - no overlay */
+    display: none;
+}
 
 /* .marquee span.anim {
   display: inline-block;
