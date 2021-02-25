@@ -1,4 +1,6 @@
 module.exports = (io, db) => {
+  const {join} = require('path');
+  const fs = require('fs');
   var library = db.library.find();
   var download = require('./videoDL.js');
   var queue = [];
@@ -131,9 +133,18 @@ module.exports = (io, db) => {
       io.emit('library', library);
     })
     socket.on('deleteSong', (song) => {
-      db.library.remove({code: song.code});
-      library = db.library.find();
-      io.emit('library', library);
+      fs.unlink(join(__dirname,'songs/'+code+'.mp4'), (err) => {
+        if (err) {
+          console.log(err);
+          failed = false;
+          return;
+        }
+        // if no error, file has been deleted successfully
+        db.library.remove({code: song.code});
+        library = db.library.find();
+        console.log('Song deleted!');
+        io.emit('library', library);
+      });
     })
     socket.on('songEnd', () => {
       console.log('Song End')
