@@ -8,7 +8,7 @@ function Host(props) {
 
   return (
     <>
-      <MainNavbar queue={props.queue} library={props.library} addSong={props.addSong} removeSong={props.removeSong} skipSong={props.skipSong} playSong={props.playSong} stopSong={props.stopSong} addLibrary={props.addLibrary} stop={props.stop} />
+      <MainNavbar queue={props.queue} library={props.library} addSong={props.addSong} removeSong={props.removeSong} skipSong={props.skipSong} playSong={props.playSong} stopSong={props.stopSong} addLibrary={props.addLibrary} stop={props.stop} editLibrary={props.editLibrary} deleteSong={props.deleteSong} />
       <Player song={props.song} play={props.play} onSongEnd={props.onSongEnd}/>
     </>
   );

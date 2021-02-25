@@ -1,4 +1,3 @@
-var library = require('./library.json');
 const express = require('express');
 const http = require('http');
 const fs = require('fs');
@@ -56,7 +55,7 @@ const io = require('socket.io')(server, {cors: {
   methods: ['GET', 'POST']
 }
 });
-require('./socket.js')(io);
+require('./socket.js')(io, db);
 
 server.listen(port, () => {
   // Tell us what port it's running on

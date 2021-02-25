@@ -38,7 +38,7 @@ function MainNavbar(props) {
             <div className="dropdown" >
               <a className="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Library </a>
               <div className="dropdown-menu" id="library" aria-labelledby="dropdownMenuButton">
-                <Library library={props.library} addSong={props.addSong} />
+                <Library library={props.library} addSong={props.addSong} editLibrary={props.editLibrary} deleteSong={props.deleteSong} />
               </div>
             </div>
           </li>
