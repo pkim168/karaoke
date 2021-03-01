@@ -16,6 +16,7 @@ function Importer(props) {
           placeholder="YouTube Link Here"
           aria-label="URL"
           aria-describedby="basic-addon1"
+          defaultValue=""
         />
       </InputGroup>
       <InputGroup className="mb-3">
@@ -27,6 +28,7 @@ function Importer(props) {
           placeholder="Title"
           aria-label="Title"
           aria-describedby="basic-addon2"
+          defaultValue=""
         />
       </InputGroup>
       <InputGroup className="mb-3">
@@ -38,22 +40,38 @@ function Importer(props) {
           placeholder="Artist"
           aria-label="Artist"
           aria-describedby="basic-addon3"
+          defaultValue=""
         />
       </InputGroup>
+      {/*<InputGroup className="mb-3">
+        <InputGroup.Prepend>
+          <InputGroup.Text id="basic-addon3">Tags</InputGroup.Text>
+        </InputGroup.Prepend>
+        <FormControl
+          id="tags"
+          placeholder="Tags"
+          aria-label="Tags"
+          aria-describedby="basic-addon3"
+          value=""
+        />
+      </InputGroup>*/}
       <InputGroup className="mb-3">
         <Button className="rounded-0" block onClick={() => {
           let url = document.getElementById("url").value;
           let title = document.getElementById("title").value;
           let artist = document.getElementById("artist").value;
+          // let tags = document.getElementById("tags").value;
 
           if (!url || !title || !artist) {
-            alert("All fields needed");
+            alert("Fields needed");
             return;
           }
 
           document.getElementById("url").value = "";
           document.getElementById("title").value = "";
           document.getElementById("artist").value = "";
+          // document.getElementById("tags").value = "";
+          // props.addLibrary({"url": url, "title": title, "artist": artist, "tags": tags});
           props.addLibrary({"url": url, "title": title, "artist": artist});
           return;
         }}> Add to Library </Button>

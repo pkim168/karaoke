@@ -100,7 +100,7 @@ const TableComponent = (props) => {
 
 
   const data = useMemo(() => {
-    var tableData = Object.values(props.library);
+    var tableData = props.library;
     return tableData.map(function(song, i) {
       return (
         {

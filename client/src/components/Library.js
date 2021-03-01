@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import '../../node_modules/bootstrap/dist/js/bootstrap.min.js';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { useTable, useFilters, useGlobalFilter, useAsyncDebounce } from 'react-table';
+import { InputGroup, FormControl } from 'react-bootstrap';
 import { matchSorter } from 'match-sorter';
 
 function GlobalFilter({
@@ -100,12 +101,23 @@ const TableComponent = (props) => {
           return (<button className="btn btn-outline-dark" onClick={() => props.addSong(original)}>Add to Queue</button>)
         },
       },
+      {
+        Header: '',
+        accessor: 'options',
+        Cell: ({ row: { original } }) => {
+          return (<button className="btn btn-outline-dark" data-toggle="modal" data-target="#optionModal" onClick={() => {
+            props.setOption(original);
+            document.getElementById("editTitle").value = original.title;
+            document.getElementById("editArtist").value = original.artist;
+          }} >Options</button>)
+        },
+      },
     ],[]
   );
 
 
   const data = useMemo(() => {
-    var tableData = Object.values(props.library);
+    var tableData = props.library;
     return tableData.map(function(song, i) {
       return (
         {
@@ -170,6 +182,82 @@ const TableComponent = (props) => {
           })}
         </tbody>
       </table>
+      <div className="modal fade" id="optionModal" tabIndex="-1" role="dialog" aria-labelledby="optionModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="optionModalLabel">{props.option.title}</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body">
+              <InputGroup className="mb-3">
+                <InputGroup.Prepend>
+                  <InputGroup.Text id="basic-addon2">Title</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl
+                  id="editTitle"
+                  placeholder="Title"
+                  aria-label="editTitle"
+                  aria-describedby="basic-addon2"
+                />
+              </InputGroup>
+              <InputGroup className="mb-3">
+                <InputGroup.Prepend>
+                  <InputGroup.Text id="basic-addon3">Artist</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl
+                  id="editArtist"
+                  placeholder="Artist"
+                  aria-label="editArtist"
+                  aria-describedby="basic-addon3"
+                />
+              </InputGroup>
+              {/*<InputGroup className="mb-3">
+                <InputGroup.Prepend>
+                  <InputGroup.Text id="basic-addon3">Tags</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl
+                  id="editTags"
+                  placeholder="Tags"
+                  aria-label="tags"
+                  aria-describedby="basic-addon3"
+                />
+              </InputGroup>*/}
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" className="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#deleteModal" >Delete</button>
+              <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={() => {
+                var title = document.getElementById("editTitle").value;
+                var artist = document.getElementById("editArtist").value;
+                props.editLibrary({"code": props.option.code, "title": title, "artist": artist});
+                return;
+              }}>Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="modal fade" id="deleteModal" tabIndex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="deleteModalLabel">Are you sure you want to delete?</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={() => {
+                props.deleteSong(props.option);
+                return;
+              }}>Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
   return table;
@@ -177,9 +265,11 @@ const TableComponent = (props) => {
 
 function Library(props) {
 
+  var [option, setOption] = useState('');
+
   return (
     <div className="table-fixed">
-      <TableComponent {...props}/>
+      <TableComponent setOption={setOption} option={option} {...props}/>
     </div>
   );
 }

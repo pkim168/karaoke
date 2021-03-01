@@ -22,7 +22,7 @@ function MainNavbar(props) {
   }, []);
 
   return (
-    <Navbar bg="white" expand="lg" fixed="top" variant="light" className="shadow-sm py-1">
+    <Navbar bg="white" expand="sm" fixed="top" variant="light" className="shadow-sm py-1">
       <Navbar.Toggle aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation" className="navbar-toggler"><span className="navbar-toggler-icon"></span></Navbar.Toggle>
       <Navbar.Collapse id="navbarSupportedContent">
         <Nav className="mr-auto">
@@ -38,7 +38,7 @@ function MainNavbar(props) {
             <div className="dropdown" >
               <a className="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Library </a>
               <div className="dropdown-menu" id="library" aria-labelledby="dropdownMenuButton">
-                <Library library={props.library} addSong={props.addSong} />
+                <Library library={props.library} addSong={props.addSong} editLibrary={props.editLibrary} deleteSong={props.deleteSong} />
               </div>
             </div>
           </li>

@@ -11,7 +11,7 @@ function App() {
   const role = useRef(null);
   const flag = useRef(true);
   const [page, setPage] = useState("home");
-  const [library, setLibrary] = useState({});
+  const [library, setLibrary] = useState([]);
   const [queue, setQueue] = useState([]);
   const [play, setPlay] = useState(false);
   const [stop, setStop] = useState(false);
@@ -57,6 +57,16 @@ function App() {
   function onSongEnd() {
     console.log('On Song End');
     socket.current.emit('songEnd');
+  }
+
+  function editLibrary(song) {
+    console.log('Edit Library');
+    socket.current.emit('editLibrary', song);
+  }
+
+  function deleteSong(song) {
+    console.log('Delete Song');
+    socket.current.emit('deleteSong', song);
   }
 
   function connect(userType, ip) {
@@ -153,7 +163,7 @@ function App() {
   return (
     <div className="App">
       {page === "home" && <Home connect={connect} />}
-      {page === "host" && <Host socket={socket.current} library={library} queue={queue} addSong={addSong} removeSong={removeSong} play={play} skipSong={skipSong} playSong={playSong} stopSong={stopSong} addLibrary={addLibrary} song={song} onSongEnd={onSongEnd} stop={stop} />}
+      {page === "host" && <Host socket={socket.current} library={library} queue={queue} addSong={addSong} removeSong={removeSong} play={play} skipSong={skipSong} playSong={playSong} stopSong={stopSong} addLibrary={addLibrary} song={song} onSongEnd={onSongEnd} stop={stop} editLibrary={editLibrary} deleteSong={deleteSong} />}
       {page === "user" && <User socket={socket.current} library={library} queue={queue} addSong={addSong} removeSong={removeSong} play={play} skipSong={skipSong} playSong={playSong} stopSong={stopSong} addLibrary={addLibrary} stop={stop} />}
       <div style={{ position: 'absolute', bottom: 0, right: 0 }} >
         <Toast onClose={() => setShowProgress(false)} show={showProgress}>

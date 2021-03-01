@@ -1,5 +1,7 @@
-module.exports = (io) => {
-  var library = require('./library.json');
+module.exports = (io, db) => {
+  const {join} = require('path');
+  const fs = require('fs');
+  var library = db.library.find();
   var download = require('./videoDL.js');
   var queue = [];
   var userArr = [];
@@ -99,8 +101,17 @@ module.exports = (io) => {
       if (!downloading) {
         downloading = true;
         io.emit('addProgress', ['start', 'Currently Downloading: '+song['title']]);
-        download(song, library, (data) => {
-          library = data;
+        download(song, library, (song) => {
+          console.log('Adding to Library: '+ song['title']);
+          db.library.save({
+            code: song['code'],
+            title: song['title'],
+            artist: song['artist'],
+            // tags: song['tags'],
+            url: 'songs/'+song['code']+'.mp4'
+          });
+          console.log('Adding Finish: '+ song['title']);
+          library = db.library.find();
           downloading = false;
           socket.emit('addSuccess', song['title']+" successfully added to library");
           io.emit('addProgress', ['end', 'Download Finished']);
@@ -115,6 +126,25 @@ module.exports = (io) => {
       else {
         socket.emit('addFail', 'Another song is currently being downloaded. Try again later');
       }
+    })
+    socket.on('editLibrary', (song) => {
+      db.library.update({code: song.code}, {title: song.title, artist: song.artist});
+      library = db.library.find();
+      io.emit('library', library);
+    })
+    socket.on('deleteSong', (song) => {
+      fs.unlink(join(__dirname,'songs/'+code+'.mp4'), (err) => {
+        if (err) {
+          console.log(err);
+          failed = false;
+          return;
+        }
+        // if no error, file has been deleted successfully
+        db.library.remove({code: song.code});
+        library = db.library.find();
+        console.log('Song deleted!');
+        io.emit('library', library);
+      });
     })
     socket.on('songEnd', () => {
       console.log('Song End')

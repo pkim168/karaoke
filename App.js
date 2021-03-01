@@ -1,4 +1,3 @@
-var library = require('./library.json');
 const express = require('express');
 const http = require('http');
 const fs = require('fs');
@@ -6,6 +5,8 @@ const ytdl = require('ytdl-core');
 // var socketIo = require('socket.io');
 // var commands = require('./commands.js');
 var cors = require("cors");
+var db = require('diskdb');
+db = db.connect('db', ['library']);
 const router = express.Router();
 
 const port = process.env.PORT || 4000;
@@ -54,7 +55,7 @@ const io = require('socket.io')(server, {cors: {
   methods: ['GET', 'POST']
 }
 });
-require('./socket.js')(io);
+require('./socket.js')(io, db);
 
 server.listen(port, () => {
   // Tell us what port it's running on

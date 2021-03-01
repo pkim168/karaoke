@@ -12,6 +12,7 @@ body {
 html {
   height: 100vh;
 }
+
 #root, .App {
   height: 100vh;
   max-height: 100vh;
@@ -119,7 +120,10 @@ html {
     position: relative;
 }
 
-
+.modal-backdrop {
+    /* bug fix - no overlay */
+    display: none;
+}
 
 /* .marquee span.anim {
   display: inline-block;

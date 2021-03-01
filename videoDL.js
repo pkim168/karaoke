@@ -21,7 +21,7 @@ var failed = false;
 //Catch all error so server doesn't close on errors
 
 function download(song, library, onComplete, onError) {
-  var code = (Object.keys(library).length + 1).toString().padStart(4, '0');
+  var code = (parseInt(library[library.length-1].code) + 1).toString().padStart(4, '0');
 
   fs.unlink(join(__dirname,'songs/'+code+'.mp4'), (err) => {
     console.log('Download Start: '+song['title']);
@@ -148,23 +148,7 @@ function download(song, library, onComplete, onError) {
       }
       else {
         console.log('Download Finish: '+ song['title']);
-        console.log('Adding to Library: '+ song['title']);
-        library[code] = {
-          code: code,
-          title: song['title'],
-          artist: song['artist'],
-          url: 'songs/'+code+'.mp4'
-        }
-        let data = JSON.stringify(library, null, 2);
-        fs.writeFile('library.json', data, (e) => {
-          if (e) {
-            console.log("error: "+e);
-          }
-          else{
-            console.log('Adding Finish: '+ song['title']);
-            onComplete(library);
-          }
-        });
+        onComplete({...song, code: code});
       }
       failed = false;
 
