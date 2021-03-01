@@ -128,5 +128,9 @@ module.exports = (io) => {
         io.emit('play', false);
       }
     })
+    socket.on('speed', (direction, pbr) => {
+      console.log('Speed ' + direction);
+      io.emit('speed', direction, pbr)
+    })
   })
 }

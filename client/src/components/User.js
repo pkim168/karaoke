@@ -39,7 +39,7 @@ function User(props) {
             </Tab.Pane>
             <Tab.Pane className="h-100" eventKey="playback">
               <div style={{paddingTop: "5%"}}>
-                <UserPlaybackOptions skipSong={props.skipSong} stopSong={props.stopSong} playSong={props.playSong} stop={props.stop} />
+                <UserPlaybackOptions skipSong={props.skipSong} stopSong={props.stopSong} playSong={props.playSong} stop={props.stop} playbackRate={props.playbackRate} speed={props.speed} />
               </div>
             </Tab.Pane>
             <Tab.Pane className="h-100" eventKey="add">
