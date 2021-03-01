@@ -60,8 +60,6 @@ function App() {
     socket.current.emit('songEnd');
   }
 
-<<<<<<< Updated upstream
-=======
   function editLibrary(song) {
     console.log('Edit Library');
     socket.current.emit('editLibrary', song);
@@ -76,8 +74,7 @@ function App() {
     console.log('Speed ' + direction)
     socket.current.emit('speed', direction, pbr);
   }
-
->>>>>>> Stashed changes
+  
   function connect(userType, ip) {
     if (!ip) {
       alert("IP address is needed");
@@ -182,13 +179,8 @@ function App() {
   return (
     <div className="App">
       {page === "home" && <Home connect={connect} />}
-<<<<<<< Updated upstream
-      {page === "host" && <Host socket={socket.current} library={library} queue={queue} addSong={addSong} removeSong={removeSong} play={play} skipSong={skipSong} playSong={playSong} stopSong={stopSong} addLibrary={addLibrary} song={song} onSongEnd={onSongEnd} stop={stop} />}
-      {page === "user" && <User socket={socket.current} library={library} queue={queue} addSong={addSong} removeSong={removeSong} play={play} skipSong={skipSong} playSong={playSong} stopSong={stopSong} addLibrary={addLibrary} stop={stop} />}
-=======
       {page === "host" && <Host socket={socket.current} library={library} queue={queue} addSong={addSong} removeSong={removeSong} play={play} skipSong={skipSong} playSong={playSong} stopSong={stopSong} addLibrary={addLibrary} song={song} onSongEnd={onSongEnd} stop={stop} editLibrary={editLibrary} deleteSong={deleteSong} playbackRate={playbackRate} speed={speed} />}
       {page === "user" && <User socket={socket.current} library={library} queue={queue} addSong={addSong} removeSong={removeSong} play={play} skipSong={skipSong} playSong={playSong} stopSong={stopSong} addLibrary={addLibrary} stop={stop} playbackRate={playbackRate} speed={speed} />}
->>>>>>> Stashed changes
       <div style={{ position: 'absolute', bottom: 0, right: 0 }} >
         <Toast onClose={() => setShowProgress(false)} show={showProgress}>
           <Toast.Header>
