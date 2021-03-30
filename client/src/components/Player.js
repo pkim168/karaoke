@@ -10,8 +10,8 @@ function Player(props) {
   // If doubling happens, maybe https://stackoverflow.com/questions/41303012/updating-source-url-on-html5-video-with-react
 
   useEffect(() => {
-    console.log(props.song);
-  }, [props.song])
+    console.log(props.song, props.playbackRate);
+  }, [props.song, props.playbackRate])
 
 
   // <video key={props.song} playsInline="playsinline" autoPlay ended={props.onSongEnd}>
@@ -26,7 +26,7 @@ function Player(props) {
         {props.play &&
           <>
             <div className="video-background-overlay"></div>
-            <ReactPlayer url={props.song} width={"100%"} height={"100%"} playing={true} onEnded={props.onSongEnd} playsinline/>
+            <ReactPlayer playbackRate={props.playbackRate} url={props.song} width={"100%"} height={"100%"} playing={true} onEnded={props.onSongEnd} playsinline/>
           </>
         }
       </div>

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import $ from 'jquery';
 import '../../node_modules/bootstrap/dist/js/bootstrap.min.js';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button, InputGroup, FormControl } from 'react-bootstrap';
 import Queue from './Queue.js';
 import Library from './Library.js';
 import PlaybackOptions from './PlaybackOptions.js';
@@ -51,7 +51,32 @@ function MainNavbar(props) {
             </div>
           </li>
         </Nav>
-        <Nav className="in-line" navbar>
+        <Nav className="justify-content-center">
+          <li className="nav-item">
+            <InputGroup>
+              <InputGroup.Prepend>
+                <Button variant="outline-secondary" onClick={() => {
+                  props.speed('down', props.playbackRate);
+                }}> - </Button>
+              </InputGroup.Prepend>
+              <FormControl
+                id="speed"
+                placeholder="x1"
+                aria-label="Speed"
+                aria-describedby="basic-addon1"
+                value={"Speed: x"+props.playbackRate}
+                style={{textAlign: "center"}}
+                disabled
+              />
+              <InputGroup.Append>
+                <Button variant="outline-secondary" onClick={() => {
+                  props.speed('up', props.playbackRate);
+                }}> + </Button>
+              </InputGroup.Append>
+            </InputGroup>
+          </li>
+        </Nav>
+        <Nav className="ml-auto" navbar>
           <li className="nav-item">
             <div className="dropdown" >
               <a className="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Add to Library </a>

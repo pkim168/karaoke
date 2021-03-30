@@ -22,6 +22,7 @@ function App() {
   const [success, setSuccess] = useState("");
   const [showFailed, setShowFailed] = useState(false);
   const [failed, setFailed] = useState("");
+  const [playbackRate, setPlaybackRate] = useState(1);
   const path = useRef("");
 
   function addSong(song) {
@@ -67,6 +68,11 @@ function App() {
   function deleteSong(song) {
     console.log('Delete Song');
     socket.current.emit('deleteSong', song);
+  }
+
+  function speed(direction, pbr) {
+    console.log('Speed ' + direction)
+    socket.current.emit('speed', direction, pbr);
   }
 
   function connect(userType, ip) {
@@ -151,6 +157,15 @@ function App() {
       setStop(true);
       setPlay(false);
     })
+
+    socket.current.on("speed", (direction, pbr) => {
+      if (direction === 'up') {
+        setPlaybackRate(pbr + .25);
+      }
+      else if (direction === 'down') {
+        setPlaybackRate(pbr - .25);
+      }
+    })
   }
 
   useEffect(() => {
@@ -163,8 +178,8 @@ function App() {
   return (
     <div className="App">
       {page === "home" && <Home connect={connect} />}
-      {page === "host" && <Host socket={socket.current} library={library} queue={queue} addSong={addSong} removeSong={removeSong} play={play} skipSong={skipSong} playSong={playSong} stopSong={stopSong} addLibrary={addLibrary} song={song} onSongEnd={onSongEnd} stop={stop} editLibrary={editLibrary} deleteSong={deleteSong} />}
-      {page === "user" && <User socket={socket.current} library={library} queue={queue} addSong={addSong} removeSong={removeSong} play={play} skipSong={skipSong} playSong={playSong} stopSong={stopSong} addLibrary={addLibrary} stop={stop} />}
+      {page === "host" && <Host socket={socket.current} library={library} queue={queue} addSong={addSong} removeSong={removeSong} play={play} skipSong={skipSong} playSong={playSong} stopSong={stopSong} addLibrary={addLibrary} song={song} onSongEnd={onSongEnd} stop={stop} editLibrary={editLibrary} deleteSong={deleteSong} playbackRate={playbackRate} speed={speed} />}
+      {page === "user" && <User socket={socket.current} library={library} queue={queue} addSong={addSong} removeSong={removeSong} play={play} skipSong={skipSong} playSong={playSong} stopSong={stopSong} addLibrary={addLibrary} stop={stop} playbackRate={playbackRate} speed={speed} />}
       <div style={{ position: 'absolute', bottom: 0, right: 0 }} >
         <Toast onClose={() => setShowProgress(false)} show={showProgress}>
           <Toast.Header>
