@@ -28,3 +28,5 @@ library.json
 client/src/assets/Distant_Lights_4K_Motion_Background_Loop.gif
 node_modules
 client/node_modules
+.vscode/settings.json
+client/.eslintcache

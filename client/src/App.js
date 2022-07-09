@@ -93,17 +93,20 @@ function App() {
     socket.current.on("close", () => {
       flag.current = false;
       socket.current.close();
+      setPage('home');
       console.log("Disconnected from server");
     });
 
     socket.current.on("connect_error", (error) => {
       socket.current.close();
+      setPage('home');
       alert("Host not available");
       return;
     });
 
     socket.current.on("connect_timeout", (error) => {
       socket.current.close();
+      setPage('home');
       alert("Host not available");
       return;
     });
@@ -172,6 +175,7 @@ function App() {
     return () => {
       if (flag)
         socket.current.close();
+        setPage('home');
     }
   }, []);
 
