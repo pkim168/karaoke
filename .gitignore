@@ -31,3 +31,4 @@ client/node_modules
 .vscode/settings.json
 client/.eslintcache
 yarn.lock
+client/yarn.lock
