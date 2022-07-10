@@ -133,10 +133,11 @@ module.exports = (io, db) => {
       io.emit('library', library);
     })
     socket.on('deleteSong', (song) => {
-      fs.unlink(join(__dirname,'songs/'+code+'.mp4'), (err) => {
+      fs.unlink(join(__dirname,'songs/'+song.code+'.mp4'), (err) => {
         if (err) {
           console.log(err);
-          failed = false;
+          io.emit('addProgress', ['end', 'Download Failed']);
+          // failed = false;
           return;
         }
         // if no error, file has been deleted successfully
