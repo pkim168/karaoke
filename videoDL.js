@@ -21,7 +21,10 @@ var failed = false;
 //Catch all error so server doesn't close on errors
 
 function download(song, library, onComplete, onError) {
-  var code = (parseInt(library[library.length-1].code) + 1).toString().padStart(4, '0');
+  var code = '0000'
+  if (library.length !== 0) {
+    code = (parseInt(library[library.length-1].code) + 1).toString().padStart(4, '0');
+  }
 
   fs.unlink(join(__dirname,'songs/'+code+'.mp4'), (err) => {
     console.log('Download Start: '+song['title']);

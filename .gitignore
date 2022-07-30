@@ -32,3 +32,4 @@ client/node_modules
 client/.eslintcache
 yarn.lock
 client/yarn.lock
+db/library.json
