@@ -2,11 +2,11 @@ import React, { useMemo } from 'react';
 import $ from 'jquery';
 import '../../node_modules/bootstrap/dist/js/bootstrap.min.js';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import {v4 as uuidv4} from 'uuid';
 
 
 function UserQueue(props) {
   // console.log(props.queue);
-  const uuidv4 = require("uuid/v4");
 
   let header = (
     <tr className="d-flex" key={"head"}>
